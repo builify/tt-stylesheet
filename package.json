@@ -1,0 +1,33 @@
+{
+  "name": "tpstylesheet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Library/TPStylesheet.js",
+  "scripts": {
+    "compile": "babel --presets es2015 -d Library/ Source/",
+    "prepublish": "npm run compile",
+    "test": "npm run compile && mocha --compilers js:babel-core/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trip-Trax/TPStylesheet.git"
+  },
+  "keywords": [
+    "stylesheet",
+    "insertrule",
+    "addrule",
+    "cssrules",
+    "style"
+  ],
+  "author": "Genert Org <contact@thedeveloper.xyz> (http://thedeveloper.xyz/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Trip-Trax/TPStylesheet/issues"
+  },
+  "homepage": "https://github.com/Trip-Trax/TPStylesheet#readme",
+  "devDependencies": {
+    "babel-core": "^6.3.21",
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
+}
