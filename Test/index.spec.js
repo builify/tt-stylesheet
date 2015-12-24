@@ -11,4 +11,4 @@ describe('math.js', function () {
       expect(add(1, 3), 'to be', 4);
     });
   });
-});
+}); 
