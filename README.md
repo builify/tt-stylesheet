@@ -5,6 +5,7 @@
 
 ## Installation
 Install with npm:
+
     npm install tpstylesheet
 
 ## What?
