@@ -1,7 +1,10 @@
 import expect from 'unexpected';
-import TPStylesheet from '../source';
+import jsdom from './browser';
 
 describe('TPStylesheet.js', function () {
+  jsdom();
+
+  var TPStylesheet = require('../source').default;
   const Stylesheet = new TPStylesheet();
 
   it('is a object', function () {
@@ -83,7 +86,14 @@ describe('TPStylesheet.js', function () {
         expect(Stylesheet._isElement, 'to be a', 'function');
       });
 
+      it('detects single node', function () {
+        var div = document.createElement('div');
+
+        expect(Stylesheet._isElement(div), 'to be true');
+      });
+
       it('does not pass other types', function () {
+
         expect(Stylesheet._isElement(new Date()), 'to be false');
         expect(Stylesheet._isElement(/test/i), 'to be false');
         expect(Stylesheet._isElement(function () {}), 'to be false');
