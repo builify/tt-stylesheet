@@ -19,7 +19,7 @@ var TPStylesheet = (function () {
   var TYPE_BOOLEAN = '[object Boolean]';
   var TYPE_NULL = '[object Null]';
   var TYPE_UNDEFINED = '[object Undefined]';
-  var PREFIXES = ['-webkit-', '-moz-', '-ms-', '-o-'];
+  var PREFIXES = 'O ms Moz webkit'.split(' ');
   var PREFIXES_LEN = PREFIXES.length;
 
   var CTPStylesheet = (function () {
@@ -108,14 +108,14 @@ var TPStylesheet = (function () {
         return property;
       }
     }, {
+      key: '_dasherize',
+      value: function _dasherize(property) {
+        return property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+      }
+    }, {
       key: '_normalizeProperty',
       value: function _normalizeProperty(property) {
-        var camel = /([a-z])([A-Z])/g;
-        var hyphens = '$1-$2';
-        var camelizedProperty = property.replace(camel, hyphens).toLowerCase();
-        var prefixed = this._getVendrorPrefix(camelizedProperty);
-
-        return prefixed;
+        return this._getVendrorPrefix(this._dasherize(property));
       }
     }, {
       key: '_parseStyles',
@@ -144,6 +144,7 @@ var TPStylesheet = (function () {
         var styleRule = selector + ' { ' + styles + ' ' + (isImportant ? '!important' : '') + '}';
 
         this._rules.push({
+          index: len,
           selector: selector,
           styles: styles,
           isImportant: isImportant
@@ -271,7 +272,11 @@ var TPStylesheet = (function () {
             {
               if (this._isString(fArg) && this._isObject(sArg)) {
                 this._insertStringAndObjectRules(fArg, sArg);
+              } else if (this._isString(fArg) && this._isString(sArg)) {
+                this._insertRule(fArg, sArg);
               }
+
+              break;
             }
 
           case 3:
@@ -279,18 +284,26 @@ var TPStylesheet = (function () {
               if (this._isString(fArg) && this._isObject(sArg) && typeof tArg === 'boolean') {
                 this._insertStringAndObjectRules(fArg, sArg, tArg);
               }
+
+              break;
             }
         }
+
+        return true;
       }
     }, {
       key: 'disable',
       value: function disable() {
         this._disableStylesheet();
+
+        return true;
       }
     }, {
       key: 'enable',
       value: function enable() {
         this._enableStylesheet();
+
+        return true;
       }
     }, {
       key: 'CSSText',
