@@ -7,6 +7,9 @@ var clean = require('gulp-clean');
 var sourcemaps = require('gulp-sourcemaps');
 var coveralls = require('gulp-coveralls');
 var istanbul = require('gulp-istanbul');
+var loadCoverage = require('remap-istanbul/lib/loadCoverage');
+var remap = require('remap-istanbul/lib/remap');
+var writeReport = require('remap-istanbul/lib/writeReport');
 var path = require('path');
 require('colors');
 
@@ -75,9 +78,6 @@ gulp.task('test:mocha', ['build:all', 'pre-test'], function () {
 });
 
 gulp.task('remap-istanbul', ['test:mocha'], function (cb) {
-  var loadCoverage = require('remap-istanbul/lib/loadCoverage');
-  var remap = require('remap-istanbul/lib/remap');
-  var writeReport = require('remap-istanbul/lib/writeReport');
   var collector = remap(loadCoverage('coverage/coverage-final.json'));
   var reports = [];
 

@@ -94,7 +94,7 @@ var TPStylesheet = (function () {
         if (this._CACHED_STYLES.hasOwnProperty(property)) {
           return property;
         } else {
-          var prefixed = undefined;
+          var prefixed = property;
 
           for (var i = 0; i < PREFIXES_LEN; i++) {
             prefixed = '' + PREFIXES[i] + property;

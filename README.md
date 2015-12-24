@@ -1,6 +1,7 @@
 # TPStylesheet
 [![Build Status](https://travis-ci.org/Trip-Trax/TPStylesheet.svg)](https://travis-ci.org/Trip-Trax/TPStylesheet)
 [![Code Climate](https://codeclimate.com/github/Trip-Trax/TPStylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/TPStylesheet)
+[![npm version](https://badge.fury.io/js/tpstylesheet.svg)](https://badge.fury.io/js/tpstylesheet)
 
 ## Installation with NPM
     npm install tpstylesheet

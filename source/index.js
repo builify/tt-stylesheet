@@ -78,7 +78,7 @@ const TPStylesheet = (function () {
       if (this._CACHED_STYLES.hasOwnProperty(property)) {
         return property;
       } else {
-        let prefixed;
+        let prefixed = property;
 
         for (let i = 0; i < PREFIXES_LEN; i++) {
           prefixed = `${PREFIXES[i]}${property}`;
