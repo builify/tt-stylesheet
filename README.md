@@ -28,7 +28,7 @@ Having created `Stylesheet` object, you can now access such functions as:
 * enable()
 * CSSText()
 
-### add
+#### add
 This function adds rule(s) to the mounted style element
 ```javascript
 Stylesheet.add('h1', 'color: #333; font-size: 33px;');
@@ -66,19 +66,19 @@ Stylesheet.add([
 ]);
 ```
 
-### disable
+#### disable
 Disables the stylesheet. This means that the styles, that the stylesheet has, will have no effect whatsoever on targeted elements.
 ```javascript
 Stylesheet.disable();
 ```
 
-### enable
+#### enable
 Enables the stylesheet. If the stylesheet has been disabled previously, the enabling will apply styles on targeted elements.
 ```javascript
 Stylesheet.disable();
 ```
 
-### CSSText
+#### CSSText
 Returns all style rules in CSS as you would find in a .CSS file.
 ```javascript
 // Returns string
