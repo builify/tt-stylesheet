@@ -13,12 +13,21 @@ An ES6 (compiled via Babel to ES5) npm library to create dynamic stylesheets and
 This library was created in response to lack of libraries out there on dynamic stylesheets.
 
 ## Usage
+Firstly, import the module and then create the instance of the module.
+The instance will automatically create `<style>` element, that will be appened in the head.
 ```javascript
 import TPStylesheet from 'TPStylesheet';
 
 const Stylesheet = new TPStylesheet();
 ```
-### add
+
+Having created `Stylesheet` object, you can now access such functions as:
+* add
+* disable
+* enable
+* CSSText
+
+### add(...)
 This function adds rule(s) to the mounted style element
 ```javascript
 Stylesheet.add('h1', {
@@ -52,6 +61,26 @@ Stylesheet.add([
   ]
 ]);
 ```
+
+### disable()
+Disables the stylesheet. This means that the styles, that the stylesheet has, will have no effect whatsoever on targeted elements.
+```javascript
+Stylesheet.disable();
+```
+
+### enable()
+Enables the stylesheet. If the stylesheet has been disabled previously, the enabling will apply styles on targeted elements.
+```javascript
+Stylesheet.disable();
+```
+
+### CSSText()
+Returns all style rules in CSS as you would find in a .CSS file.
+```javascript
+// Returns string
+console.log(Stylesheet.CSSText())
+```
+
 ## Contributions & Issues
 Contributions are welcome. Please clearly explain the purpose of the PR and follow the current style.
 
