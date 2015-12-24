@@ -260,6 +260,6 @@ const TPStylesheet = (function () {
 	}
 
 	return CTPStylesheet;
-})();
+}());
 
 export default TPStylesheet;
