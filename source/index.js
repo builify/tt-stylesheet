@@ -9,12 +9,7 @@ const TPStylesheet = (function () {
 	const TYPE_BOOLEAN = '[object Boolean]';
 	const TYPE_NULL = '[object Null]';
 	const TYPE_UNDEFINED = '[object Undefined]';
-	const PREFIXES = [
-    '-webkit-',
-    '-moz-',
-    '-ms-',
-    '-o-'
-  ];
+	const PREFIXES = 'O ms Moz webkit'.split(' ');
   const PREFIXES_LEN = PREFIXES.length;
 
 	class CTPStylesheet {
@@ -92,13 +87,12 @@ const TPStylesheet = (function () {
       return property;
     }
 
-    _normalizeProperty (property) {
-      const camel = /([a-z])([A-Z])/g;
-      const hyphens = '$1-$2';
-      const camelizedProperty = property.replace(camel, hyphens).toLowerCase();
-      const prefixed = this._getVendrorPrefix(camelizedProperty);
+		_dasherize (property) {
+			return property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+		}
 
-      return prefixed;
+    _normalizeProperty (property) {
+      return this._getVendrorPrefix(this._dasherize(property));
     }
 
     _parseStyles (styles) {
@@ -123,6 +117,7 @@ const TPStylesheet = (function () {
       const styleRule = `${selector} { ${styles} ${isImportant ? '!important' : ''}}`;
 
       this._rules.push({
+				index: len,
         selector: selector,
         styles: styles,
         isImportant: isImportant
@@ -235,23 +230,35 @@ const TPStylesheet = (function () {
         case 2: {
           if (this._isString(fArg) && this._isObject(sArg)) {
             this._insertStringAndObjectRules(fArg, sArg);
-          }
+          } else if (this._isString(fArg) && this._isString(sArg)) {
+						this._insertRule(fArg, sArg);
+					}
+
+					break;
         }
 
         case 3: {
           if (this._isString(fArg) && this._isObject(sArg) && typeof tArg === 'boolean') {
             this._insertStringAndObjectRules(fArg, sArg, tArg);
           }
+
+					break;
         }
       }
+
+			return true;
     }
 
     disable () {
       this._disableStylesheet();
+
+			return true;
     }
 
     enable () {
       this._enableStylesheet();
+
+			return true;
     }
 
     CSSText () {

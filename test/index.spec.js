@@ -8,7 +8,7 @@ describe('TPStylesheet.js', function () {
 
   jsdom();
 
-  before(function () {
+  beforeEach(function() {
     Stylesheet = new TPStylesheet({
       win: global.window
     });
@@ -149,6 +149,22 @@ describe('TPStylesheet.js', function () {
       it('is a function', function () {
         expect(Stylesheet._getVendrorPrefix, 'to be a', 'function');
       });
+
+      it('should return property', function () {
+        expect(Stylesheet._getVendrorPrefix('color'), 'to be', 'color');
+      });
+    });
+
+    describe('_dasherize', function () {
+      it('is a function', function () {
+        expect(Stylesheet._dasherize, 'to be a', 'function');
+      });
+
+      it('should return correct properties', function () {
+        expect(Stylesheet._dasherize('userSelect'), 'to be', 'user-select');
+        expect(Stylesheet._dasherize('backgroundColor'), 'to be', 'background-color');
+        expect(Stylesheet._dasherize('backfaceVisibility'), 'to be', 'backface-visibility');
+      });
     });
 
     describe('_normalizeProperty', function () {
@@ -211,11 +227,19 @@ describe('TPStylesheet.js', function () {
       it('is a function', function () {
         expect(Stylesheet.add, 'to be a', 'function');
       });
+
+      it('should return true', function () {
+        expect(Stylesheet.add(), 'to be true');
+      });
     });
 
     describe('disable', function () {
       it('is a function', function () {
         expect(Stylesheet.disable, 'to be a', 'function');
+      });
+
+      it('should return true', function () {
+        expect(Stylesheet.disable(), 'to be true');
       });
     });
 
@@ -223,11 +247,25 @@ describe('TPStylesheet.js', function () {
       it('is a function', function () {
         expect(Stylesheet.enable, 'to be a', 'function');
       });
+
+      it('should return true', function () {
+        expect(Stylesheet.enable(), 'to be true');
+      });
     });
 
     describe('CSSText', function () {
       it('is a function', function () {
         expect(Stylesheet.CSSText, 'to be a', 'function');
+      });
+
+      it('should return string', function () {
+        expect(Stylesheet.CSSText(), 'to be empty');
+      });
+
+      it('should return expected string', function () {
+        Stylesheet.add('h2', 'color: #333;');
+
+        expect(Stylesheet.CSSText(), 'to contain', 'h2', 'color', '#333', '{', '}', ';');
       });
     });
   });
