@@ -1,11 +1,17 @@
 import expect from 'unexpected';
 import jsdom from './browser';
+import TPStylesheet from '../source';
 
 describe('TPStylesheet.js', function () {
+  var Stylesheet;
+
   jsdom();
 
-  var TPStylesheet = require('../source').default;
-  const Stylesheet = new TPStylesheet();
+  before(function () {
+    Stylesheet = new TPStylesheet({
+      win: global.window
+    });
+  });
 
   it('is a object', function () {
     expect(Stylesheet, 'to be a', 'object');
@@ -104,6 +110,29 @@ describe('TPStylesheet.js', function () {
         expect(Stylesheet._isElement(undefined), 'to be false');
         expect(Stylesheet._isElement(null), 'to be false');
         expect(Stylesheet._isElement([]), 'to be false');
+      });
+    });
+
+    describe('_isBoolean', function () {
+      it('is a function', function () {
+        expect(Stylesheet._isBoolean, 'to be a', 'function');
+      });
+
+      it('detects boolean', function () {
+        expect(Stylesheet._isBoolean(true), 'to be true');
+        expect(Stylesheet._isBoolean(false), 'to be true');
+      });
+
+      it('does not pass other types', function () {
+        expect(Stylesheet._isBoolean(new Date()), 'to be false');
+        expect(Stylesheet._isBoolean(/test/i), 'to be false');
+        expect(Stylesheet._isBoolean(function () {}), 'to be false');
+        expect(Stylesheet._isBoolean({}), 'to be false');
+        expect(Stylesheet._isBoolean(''), 'to be false');
+        expect(Stylesheet._isBoolean(123), 'to be false');
+        expect(Stylesheet._isBoolean(undefined), 'to be false');
+        expect(Stylesheet._isBoolean(null), 'to be false');
+        expect(Stylesheet._isBoolean([]), 'to be false');
       });
     });
   });

@@ -5,8 +5,7 @@ var defaults = {
   console: true,
   useEach: false,
   skipWindowCheck: false,
-  html: "<!doctype html><html><head><meta charset='utf-8'></head>" +
-    '<body></body></html>'
+  html: "<!doctype html><html><head><meta charset='utf-8'></head><body><h1>Awesome</h1></body></html>"
 };
 var blacklist = Object.keys(global);
 blacklist.push('constructor');
