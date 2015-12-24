@@ -9,6 +9,13 @@ const TPStylesheet = (function () {
 	const TYPE_BOOLEAN = '[object Boolean]';
 	const TYPE_NULL = '[object Null]';
 	const TYPE_UNDEFINED = '[object Undefined]';
+	const PREFIXES = [
+    '-webkit-',
+    '-moz-',
+    '-ms-',
+    '-o-'
+  ];
+  const PREFIXES_LEN = PREFIXES.length;
 
 	class CTPStylesheet {
 		constructor (obj) {
@@ -24,6 +31,7 @@ const TPStylesheet = (function () {
 			this._styleSheetEnabled = false;
 	    this._stylesheet = this._initializeStyleElement(obj.target);
 	    this._rules = [];
+			this._CACHED_STYLES = this._win.getComputedStyle(this._doc.documentElement);
 		}
 
 		_getType (type) {
@@ -67,7 +75,7 @@ const TPStylesheet = (function () {
     }
 
 		_getVendrorPrefix (property) {
-      if (this.CACHED_STYLES.hasOwnProperty(property)) {
+      if (this._CACHED_STYLES.hasOwnProperty(property)) {
         return property;
       } else {
         let prefixed;
@@ -75,7 +83,7 @@ const TPStylesheet = (function () {
         for (let i = 0; i < PREFIXES_LEN; i++) {
           prefixed = `${PREFIXES[i]}${property}`;
 
-          if (this.CACHED_STYLES.hasOwnProperty(prefixed)) {
+          if (this._CACHED_STYLES.hasOwnProperty(prefixed)) {
             return prefixed;
           }
         }
@@ -96,9 +104,9 @@ const TPStylesheet = (function () {
     _parseStyles (styles) {
       if (this._isString(styles)) {
         return styles;
-      } else if (!this._isObject(styles)) {
+      } else if (!styles && !this._isObject(styles)) {
         return '';
-      }
+			}
 
       return Object.keys(styles).map((key) => {
         const property = this._normalizeProperty(key);
@@ -165,7 +173,7 @@ const TPStylesheet = (function () {
       }
     }
 
-    _insertStringAndObjectRules(selector, rules, isImportant = false) {
+    _insertStringAndObjectRules (selector, rules, isImportant = false) {
       const parsedStyle = this._parseStyles(rules);
 
       this._insertRule(selector, parsedStyle, isImportant);
@@ -246,7 +254,7 @@ const TPStylesheet = (function () {
       this._enableStylesheet();
     }
 
-    get CSSText () {
+    CSSText () {
       return this._getCSSText();
     }
 	}

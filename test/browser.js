@@ -75,9 +75,9 @@ module.exports = function (_options) {
   }
 
   function getError (errors) {
-    var data = errors[0].data
-    var err = data.error
-    err.message = err.message + ' [jsdom]'
+    var data = errors[0].data;
+    var err = data.error;
+    err.message = err.message + ' [jsdom]';
 
     if (err.stack) {
       err.stack = err.stack.split('\n')

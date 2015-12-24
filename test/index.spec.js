@@ -1,6 +1,7 @@
 import expect from 'unexpected';
 import jsdom from './browser';
 import TPStylesheet from '../source';
+import ChromeStyles from './ChromeStyles';
 
 describe('TPStylesheet.js', function () {
   var Stylesheet;
@@ -11,6 +12,8 @@ describe('TPStylesheet.js', function () {
     Stylesheet = new TPStylesheet({
       win: global.window
     });
+
+    Stylesheet._CACHED_STYLES = ChromeStyles;
   });
 
   it('is a object', function () {
@@ -133,6 +136,98 @@ describe('TPStylesheet.js', function () {
         expect(Stylesheet._isBoolean(undefined), 'to be false');
         expect(Stylesheet._isBoolean(null), 'to be false');
         expect(Stylesheet._isBoolean([]), 'to be false');
+      });
+    });
+
+    describe('_initializeStyleElement', function () {
+      it('is a function', function () {
+        expect(Stylesheet._initializeStyleElement, 'to be a', 'function');
+      });
+    });
+
+    describe('_getVendrorPrefix', function () {
+      it('is a function', function () {
+        expect(Stylesheet._getVendrorPrefix, 'to be a', 'function');
+      });
+    });
+
+    describe('_normalizeProperty', function () {
+      it('is a function', function () {
+        expect(Stylesheet._normalizeProperty, 'to be a', 'function');
+      });
+    });
+
+    describe('_parseStyles', function () {
+      it('is a function', function () {
+        expect(Stylesheet._parseStyles, 'to be a', 'function');
+      });
+    });
+
+    describe('_insertRule', function () {
+      it('is a function', function () {
+        expect(Stylesheet._insertRule, 'to be a', 'function');
+      });
+    });
+
+    describe('_insertArrayRules', function () {
+      it('is a function', function () {
+        expect(Stylesheet._insertArrayRules, 'to be a', 'function');
+      });
+    });
+
+    describe('_insertObjectRules', function () {
+      it('is a function', function () {
+        expect(Stylesheet._insertObjectRules, 'to be a', 'function');
+      });
+    });
+
+    describe('_insertStringAndObjectRules', function () {
+      it('is a function', function () {
+        expect(Stylesheet._insertStringAndObjectRules, 'to be a', 'function');
+      });
+    });
+
+    describe('_getCSSText', function () {
+      it('is a function', function () {
+        expect(Stylesheet._getCSSText, 'to be a', 'function');
+      });
+    });
+
+    describe('_disableStylesheet', function () {
+      it('is a function', function () {
+        expect(Stylesheet._disableStylesheet, 'to be a', 'function');
+      });
+    });
+
+    describe('_enableStylesheet', function () {
+      it('is a function', function () {
+        expect(Stylesheet._enableStylesheet, 'to be a', 'function');
+      });
+    });
+  });
+
+  describe('Public methods', function () {
+    describe('add', function () {
+      it('is a function', function () {
+        expect(Stylesheet.add, 'to be a', 'function');
+      });
+    });
+
+    describe('disable', function () {
+      it('is a function', function () {
+        expect(Stylesheet.disable, 'to be a', 'function');
+      });
+    });
+
+    describe('enable', function () {
+      it('is a function', function () {
+        expect(Stylesheet.enable, 'to be a', 'function');
+      });
+    });
+
+    describe('CSSText', function () {
+      it('is a function', function () {
+        expect(Stylesheet.CSSText, 'to be a', 'function');
       });
     });
   });
