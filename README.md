@@ -17,7 +17,7 @@ const Stylesheet = new TPStylesheet();
 ```
 
 ## Functions
-- `add`
+- **add**
 
     This function adds rule(s) to the mounted style element
     ```javascript
@@ -44,21 +44,21 @@ const Stylesheet = new TPStylesheet();
     });
     ```
 
-- `disable`
+- **disable**
 
-    Disables the stylesheet. This means that the styles, that the stylesheet has, will have no effect whatsoever on targeted elements.
+    Disables the stylesheet. This means that the styles, the stylesheet has, will have no effect whatsoever on targeted elements.
     ```javascript
     Stylesheet.disable();
     ```
 
-- `enable`
+- **enable**
 
-    Enables the stylesheet. If the stylesheet has been disabled previously, the enabling will apply styles on targeted elements.
+    Enables the stylesheet if the stylesheet had been disabled.
     ```javascript
     Stylesheet.enable();
     ```
 
-- `CSSText`
+- **CSSText**
 
     Returns all style rules in CSS as you would find in a .CSS file.
     ```javascript
