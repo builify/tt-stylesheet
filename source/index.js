@@ -2,15 +2,9 @@ const TPStylesheet = (function () {
 	const TYPE_ARRAY = '[object Array]';
 	const TYPE_STRING = '[object String]';
 	const TYPE_OBJECT = '[object Object]';
-	const TYPE_DATE = '[object Date]';
-	const TYPE_NUMBER = '[object Number]';
-	const TYPE_FUNCTION = '[object Function]';
-	const TYPE_REGEXP = '[object RegExp]';
 	const TYPE_BOOLEAN = '[object Boolean]';
-	const TYPE_NULL = '[object Null]';
-	const TYPE_UNDEFINED = '[object Undefined]';
-	const PREFIXES = 'O ms Moz webkit'.split(' ');
-  const PREFIXES_LEN = PREFIXES.length;
+	const PREFIXES = '-webkit-,-ms-,-moz-,-o-'.split(',');
+	const PREFIXES_LEN = PREFIXES.length;
 
 	class CTPStylesheet {
 		constructor (obj) {
@@ -26,7 +20,8 @@ const TPStylesheet = (function () {
 			this._styleSheetEnabled = false;
 	    this._stylesheet = this._initializeStyleElement(obj.target);
 	    this._rules = [];
-			this._CACHED_STYLES = this._win.getComputedStyle(this._doc.documentElement);
+			this._CACHED_STYLES = {};
+			this._BROWSER_STYLES= [].slice.call(this._win.getComputedStyle(this._doc.documentElement));
 		}
 
 		_getType (type) {
@@ -69,31 +64,40 @@ const TPStylesheet = (function () {
       return style.sheet ? style.sheet : style.styleSheet;
     }
 
-		_getVendrorPrefix (property) {
-      if (this._CACHED_STYLES.hasOwnProperty(property)) {
-        return property;
-      } else {
-        let prefixed = property;
-
-        for (let i = 0; i < PREFIXES_LEN; i++) {
-          prefixed = `${PREFIXES[i]}${property}`;
-
-          if (this._CACHED_STYLES.hasOwnProperty(prefixed)) {
-            return prefixed;
-          }
-        }
-      }
-
-      return property;
-    }
-
 		_dasherize (property) {
 			return property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 		}
 
-    _normalizeProperty (property) {
-      return this._getVendrorPrefix(this._dasherize(property));
-    }
+		_normalizeProperty (property) {
+			if (this._CACHED_STYLES.hasOwnProperty(property)) {
+		    return this._CACHED_STYLES[property];
+		  }
+
+		  let dasherizedProperty = this._dasherize(property);
+
+			if (this._BROWSER_STYLES.indexOf(dasherizedProperty) !== -1) {
+		    this._CACHED_STYLES[property] = dasherizedProperty;
+		    return dasherizedProperty;
+		  } else {
+		    let i = PREFIXES_LEN - 1,
+		        prefixed = null;
+
+		    while(i >= 0) {
+		      prefixed = `${PREFIXES[i]}${dasherizedProperty}`;
+
+		      if (this._BROWSER_STYLES.indexOf(prefixed) !== -1) {
+		        this._CACHED_STYLES[property] = prefixed;
+		        return prefixed;
+		      }
+
+		      i--;
+		    }
+		  }
+
+			this._CACHED_STYLES[property] = dasherizedProperty;
+
+			return dasherizedProperty;
+		}
 
     _parseStyles (styles) {
       if (this._isString(styles)) {
@@ -102,13 +106,15 @@ const TPStylesheet = (function () {
         return '';
 			}
 
-      return Object.keys(styles).map((key) => {
+			const stylesToText = Object.keys(styles).map((key) => {
         const property = this._normalizeProperty(key);
         const value = styles[key];
         const declaration = `${property}:${value}`;
 
         return declaration;
       }).join(';');
+
+			return `${stylesToText};`;
     }
 
     _insertRule (selector, styles, isImportant) {
@@ -127,32 +133,6 @@ const TPStylesheet = (function () {
         sheet.insertRule(styleRule, len);
       } else if (sheet.addRule) {
         sheet.addRule(selector, styles, len);
-      }
-    }
-
-    _insertArrayRules (rules) {
-      for (let i = 0, rl = rules.length; i < rl; i++) {
-        var j = 1,
-          rule = rules[i],
-          selector = rules[i][0],
-          propStr = '',
-          ruleItem, value, declaration, isImportant;
-
-        if (this._isArray(rule[1][0])) {
-          rule = rule[1];
-          j = 0;
-        }
-
-        for (let srl = rule.length; j < srl; j++) {
-          ruleItem = rule[j];
-          value = this._normalizeProperty(ruleItem[0]);
-          declaration = ruleItem[1];
-          isImportant = ruleItem[2] ? true : false;
-
-          propStr += `${value}:${declaration}${isImportant ? ' !important' : ''};\n`;
-        }
-
-        this._insertRule(selector, propStr);
       }
     }
 
@@ -218,9 +198,7 @@ const TPStylesheet = (function () {
 
       switch (argsLen) {
         case 1: {
-          if (this._isArray(fArg)) {
-            this._insertArrayRules(fArg);
-          } else if (this._isObject(fArg)) {
+          if (this._isObject(fArg)) {
             this._insertObjectRules(fArg);
           }
 
@@ -238,7 +216,7 @@ const TPStylesheet = (function () {
         }
 
         case 3: {
-          if (this._isString(fArg) && this._isObject(sArg) && typeof tArg === 'boolean') {
+          if (this._isString(fArg) && this._isObject(sArg) && this._isBoolean(tArg)) {
             this._insertStringAndObjectRules(fArg, sArg, tArg);
           }
 
@@ -246,19 +224,17 @@ const TPStylesheet = (function () {
         }
       }
 
-			return true;
+			return this;
     }
 
     disable () {
       this._disableStylesheet();
-
-			return true;
+			return this;
     }
 
     enable () {
       this._enableStylesheet();
-
-			return true;
+			return this;
     }
 
     CSSText () {

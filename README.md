@@ -3,16 +3,11 @@
 [![Code Climate](https://codeclimate.com/github/Trip-Trax/TPStylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/TPStylesheet)
 [![npm version](https://badge.fury.io/js/tpstylesheet.svg)](https://badge.fury.io/js/tpstylesheet)
 
+> Create dynamic stylesheets and add rules to them. You can also enable and disable the stylesheets.
+
 ## Installation
 Install with npm:
-
-    npm install tpstylesheet
-
-## What?
-An ES6 npm library to create dynamic stylesheets and manipulate them by adding rules to them with JavaScript.
-
-## Why?
-This library was created in response to lack of libraries out there on dynamic stylesheets.
+`npm install tpstylesheet`
 
 ## Usage
 Firstly, import the module and then create the instance of the module.
@@ -53,18 +48,6 @@ Stylesheet.add({
     filter: 'blur(2px)'
   }
 });
-
-// or
-Stylesheet.add([
-  ['h2', // Also accepts a second argument as an array of arrays instead
-    ['color', 'red'],
-    ['backgroundColor', 'green', true] // 'true' for !important rules
-  ],
-  ['.myClass',
-    ['backgroundColor', 'yellow'],
-    ['userSelect', 'none']
-  ]
-]);
 ```
 
 #### disable
@@ -92,10 +75,10 @@ Contributions are welcome. Please clearly explain the purpose of the PR and foll
 Issues can be resolved quickest if they are descriptive and include both a reduced test case and a set of steps to reproduce.
 
 ## Run tests and create coverage
-    git clone https://github.com/Trip-Trax/TPStylesheet.git
-    cd TPStylesheet
-    npm i
-    npm run coverage
+`git clone https://github.com/Trip-Trax/TPStylesheet.git
+cd TPStylesheet
+npm i
+npm run coverage`
 
 ## Licence
 Licensed under the [MIT License](LICENSE).

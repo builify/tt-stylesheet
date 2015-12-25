@@ -2,6 +2,7 @@ import expect from 'unexpected';
 import jsdom from './browser';
 import TPStylesheet from '../source';
 import ChromeStyles from './ChromeStyles';
+var assert = require('assert');
 
 describe('TPStylesheet.js', function () {
   var Stylesheet;
@@ -13,7 +14,7 @@ describe('TPStylesheet.js', function () {
       win: global.window
     });
 
-    Stylesheet._CACHED_STYLES = ChromeStyles;
+    Stylesheet._BROWSER_STYLES = [].slice.call(ChromeStyles);
   });
 
   it('is a object', function () {
@@ -145,16 +146,6 @@ describe('TPStylesheet.js', function () {
       });
     });
 
-    describe('_getVendrorPrefix', function () {
-      it('is a function', function () {
-        expect(Stylesheet._getVendrorPrefix, 'to be a', 'function');
-      });
-
-      it('should return property', function () {
-        expect(Stylesheet._getVendrorPrefix('color'), 'to be', 'color');
-      });
-    });
-
     describe('_dasherize', function () {
       it('is a function', function () {
         expect(Stylesheet._dasherize, 'to be a', 'function');
@@ -164,6 +155,9 @@ describe('TPStylesheet.js', function () {
         expect(Stylesheet._dasherize('userSelect'), 'to be', 'user-select');
         expect(Stylesheet._dasherize('backgroundColor'), 'to be', 'background-color');
         expect(Stylesheet._dasherize('backfaceVisibility'), 'to be', 'backface-visibility');
+        expect(Stylesheet._dasherize('backfaceVisibility'), 'to be', 'backface-visibility');
+        expect(Stylesheet._dasherize('listStyleImage'), 'to be', 'list-style-image');
+        expect(Stylesheet._dasherize('mozBorderTopColors'), 'to be', 'moz-border-top-colors');
       });
     });
 
@@ -171,23 +165,49 @@ describe('TPStylesheet.js', function () {
       it('is a function', function () {
         expect(Stylesheet._normalizeProperty, 'to be a', 'function');
       });
+
+      it('should return correct properties', function () {
+        expect(Stylesheet._normalizeProperty('userSelect'), 'to be', 'user-select');
+        expect(Stylesheet._normalizeProperty('backgroundColor'), 'to be', 'background-color');
+        expect(Stylesheet._normalizeProperty('backfaceVisibility'), 'to be', 'backface-visibility');
+        expect(Stylesheet._normalizeProperty('backfaceVisibility'), 'to be', 'backface-visibility');
+        expect(Stylesheet._normalizeProperty('listStyleImage'), 'to be', 'list-style-image');
+
+        expect(Stylesheet._CACHED_STYLES, 'to have properties', {
+          userSelect: 'user-select',
+          backgroundColor: 'background-color',
+          backfaceVisibility: 'backface-visibility',
+          listStyleImage: 'list-style-image'
+        });
+      });
     });
 
     describe('_parseStyles', function () {
       it('is a function', function () {
         expect(Stylesheet._parseStyles, 'to be a', 'function');
       });
+
+      it('should return correct styles', function () {
+        expect(Stylesheet._parseStyles({
+          color: '#333',
+          fontSize: '16px'
+        }), 'to be', 'color:#333;font-size:16px;');
+        expect(Stylesheet._parseStyles({
+          userSelect: 'none',
+          color: '#333',
+          fontSize: '16px'
+        }), 'to be', 'user-select:none;color:#333;font-size:16px;');
+      });
+
+      it('should work on empty and non-object argument', function () {
+        expect(Stylesheet._parseStyles(), 'to be empty');
+        expect(Stylesheet._parseStyles('test123'), 'to be', 'test123');
+      });
     });
 
     describe('_insertRule', function () {
       it('is a function', function () {
         expect(Stylesheet._insertRule, 'to be a', 'function');
-      });
-    });
-
-    describe('_insertArrayRules', function () {
-      it('is a function', function () {
-        expect(Stylesheet._insertArrayRules, 'to be a', 'function');
       });
     });
 
@@ -213,11 +233,21 @@ describe('TPStylesheet.js', function () {
       it('is a function', function () {
         expect(Stylesheet._disableStylesheet, 'to be a', 'function');
       });
+
+      it('should disable stylesheet', function () {
+        Stylesheet._disableStylesheet();
+        expect(Stylesheet._styleSheetEnabled, 'to be false');
+      });
     });
 
     describe('_enableStylesheet', function () {
       it('is a function', function () {
         expect(Stylesheet._enableStylesheet, 'to be a', 'function');
+      });
+
+      it('should enable stylesheet', function () {
+        Stylesheet._enableStylesheet();
+        expect(Stylesheet._styleSheetEnabled, 'to be true');
       });
     });
   });
@@ -228,8 +258,37 @@ describe('TPStylesheet.js', function () {
         expect(Stylesheet.add, 'to be a', 'function');
       });
 
-      it('should return true', function () {
-        expect(Stylesheet.add(), 'to be true');
+      it('should return object', function () {
+        expect(Stylesheet.add(), 'to be' , Stylesheet);
+
+        Stylesheet.add('h2', 'color: #333;');
+
+        Stylesheet.add('h1', {
+          color: '#777',
+          fontSize: '33px'
+        });
+
+        Stylesheet.add({
+          'h3': {
+            color: 'duck',
+            backgroundColor: 'hello'
+          },
+          'blockquote': {
+            borderRadius: '3px',
+            border: '1px solid #ccc'
+          }
+        });
+
+        Stylesheet.add({
+          'h3': {
+            color: 'duck',
+            backgroundColor: 'hello'
+          },
+          'blockquote': {
+            borderRadius: '3px',
+            border: '1px solid #ccc'
+          }
+        }, true);
       });
     });
 
@@ -238,8 +297,13 @@ describe('TPStylesheet.js', function () {
         expect(Stylesheet.disable, 'to be a', 'function');
       });
 
-      it('should return true', function () {
-        expect(Stylesheet.disable(), 'to be true');
+      it('should return object', function () {
+        expect(Stylesheet.disable(), 'to be' , Stylesheet);
+      });
+
+      it('should disable stylesheet', function () {
+        Stylesheet.disable();
+        expect(Stylesheet._styleSheetEnabled, 'to be false');
       });
     });
 
@@ -248,8 +312,13 @@ describe('TPStylesheet.js', function () {
         expect(Stylesheet.enable, 'to be a', 'function');
       });
 
-      it('should return true', function () {
-        expect(Stylesheet.enable(), 'to be true');
+      it('should return object', function () {
+        expect(Stylesheet.enable(), 'to be' , Stylesheet);
+      });
+
+      it('should enable stylesheet', function () {
+        Stylesheet.enable();
+        expect(Stylesheet._styleSheetEnabled, 'to be true');
       });
     });
 
@@ -265,7 +334,7 @@ describe('TPStylesheet.js', function () {
       it('should return expected string', function () {
         Stylesheet.add('h2', 'color: #333;');
 
-        expect(Stylesheet.CSSText(), 'to contain', 'h2', 'color', '#333', '{', '}', ';');
+        expect(Stylesheet.CSSText(), 'to be', 'h2 {color: #333;}');
       });
     });
   });
