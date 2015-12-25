@@ -2,7 +2,6 @@ import expect from 'unexpected';
 import jsdom from './browser';
 import TPStylesheet from '../source';
 import ChromeStyles from './ChromeStyles';
-var assert = require('assert');
 
 describe('TPStylesheet.js', function () {
   var Stylesheet;

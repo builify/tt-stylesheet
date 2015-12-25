@@ -10,64 +10,59 @@ Install with npm:
 `npm install tpstylesheet`
 
 ## Usage
-Firstly, import the module and then create the instance of the module.
-The instance will automatically create `<style>` element, that will be appened in the head.
 ```javascript
 import TPStylesheet from 'TPStylesheet';
 
 const Stylesheet = new TPStylesheet();
 ```
 
-Having created `Stylesheet` object, you can now access such functions as:
-* add(...args)
-* disable()
-* enable()
-* CSSText()
+## Functions
+- `add(...args)`
+    This function adds rule(s) to the mounted style element
+    ```javascript
+    Stylesheet.add('h1', 'color: #333; font-size: 33px;');
 
-#### add
-This function adds rule(s) to the mounted style element
-```javascript
-Stylesheet.add('h1', 'color: #333; font-size: 33px;');
+    // or
+    Stylesheet.add('h1', {
+      color: '#333',
+      fontSize: '33px'
+    });
 
-// or
-Stylesheet.add('h1', {
-  color: '#333',
-  fontSize: '33px'
-});
+    // or
+    Stylesheet.add({
+      'h1': {
+        color: '#333',
+        fontSize: '33px',
+        transform: 'scale(2)',
+        userSelect: 'none'
+      },
+      'blockquote': {
+        transform: 'rotate(45deg)',
+        filter: 'blur(2px)'
+      }
+    });
+    ```
 
-// or
-Stylesheet.add({
-  'h1': {
-    color: '#333',
-    fontSize: '33px',
-    transform: 'scale(2)',
-    userSelect: 'none'
-  },
-  'blockquote': {
-    transform: 'rotate(45deg)',
-    filter: 'blur(2px)'
-  }
-});
-```
+- `disable()`
+    Disables the stylesheet. This means that the styles, that the stylesheet has, will have no effect whatsoever on targeted elements.
+    ```javascript
+    Stylesheet.disable();
+    ```
 
-#### disable
-Disables the stylesheet. This means that the styles, that the stylesheet has, will have no effect whatsoever on targeted elements.
-```javascript
-Stylesheet.disable();
-```
+- `enable()`
+    Enables the stylesheet. If the stylesheet has been disabled previously, the enabling will apply styles on targeted elements.
+    ```javascript
+    Stylesheet.enable();
+    ```
 
-#### enable
-Enables the stylesheet. If the stylesheet has been disabled previously, the enabling will apply styles on targeted elements.
-```javascript
-Stylesheet.disable();
-```
+- `CSSText()`
+    Returns all style rules in CSS as you would find in a .CSS file.
+    ```javascript
+    Stylesheet.add('h1', 'color: #333; font-size: 33px;');
 
-#### CSSText
-Returns all style rules in CSS as you would find in a .CSS file.
-```javascript
-// Returns string
-console.log(Stylesheet.CSSText())
-```
+    // Logs 'h1{color:#333;font-size:33px;}'
+    console.log(Stylesheet.CSSText())
+    ```
 
 ## Contributions & Issues
 Contributions are welcome. Please clearly explain the purpose of the PR and follow the current style.

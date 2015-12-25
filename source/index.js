@@ -5,7 +5,7 @@ const TPStylesheet = (function () {
 	const TYPE_BOOLEAN = '[object Boolean]';
 	const PREFIXES = '-webkit-,-ms-,-moz-,-o-'.split(',');
 	const PREFIXES_LEN = PREFIXES.length;
-
+  
 	class CTPStylesheet {
 		constructor (obj) {
 			this._defaults = {
