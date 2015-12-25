@@ -10,6 +10,7 @@ Install with npm:
 `npm install tpstylesheet`
 
 ## Usage
+When calling instance of the object, a `<style>` element will appear in document's `<head>`.
 ```javascript
 import TPStylesheet from 'TPStylesheet';
 
