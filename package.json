@@ -1,6 +1,6 @@
 {
   "name": "tpstylesheet",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "README.md",
   "main": "dist/index.js",
   "scripts": {
