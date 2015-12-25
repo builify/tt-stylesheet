@@ -96,13 +96,16 @@ describe('TPStylesheet.js', function () {
       });
 
       it('detects single node', function () {
-        var div = document.createElement('div');
+        const div = document.createElement('div');
+        const h1Elem = document.querySelector('h1');
+        const liElems = document.querySelectorAll('li');
 
         expect(Stylesheet._isElement(div), 'to be true');
+        expect(Stylesheet._isElement(h1Elem), 'to be true');
+        expect(Stylesheet._isElement(liElems), 'to be false');
       });
 
       it('does not pass other types', function () {
-
         expect(Stylesheet._isElement(new Date()), 'to be false');
         expect(Stylesheet._isElement(/test/i), 'to be false');
         expect(Stylesheet._isElement(function () {}), 'to be false');

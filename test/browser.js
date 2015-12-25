@@ -1,13 +1,32 @@
-var extend = require('util')._extend;
-var Path = require('path');
-var defaults = {
+import { _extend as extend } from 'util';
+import Path from 'path';
+
+const defaults = {
   globalize: true,
   console: true,
   useEach: false,
   skipWindowCheck: false,
-  html: "<!doctype html><html><head><meta charset='utf-8'></head><body><h1>Awesome</h1></body></html>"
+  html: `
+    <!doctype html>
+    <html>
+      <head>
+        <meta charset='utf-8'>
+      </head>
+    <body>
+      <h1>Awesome</h1>
+      <iframe src='https://github.com/Trip-Trax'></iframe>
+      <ul>
+        <li>Trip-Trax</li>
+        <li>is software</li>
+        <li>development</li>
+        <li>company!</li>
+      </ul>
+    </body>
+  </html>
+  `
 };
-var blacklist = Object.keys(global);
+
+const blacklist = Object.keys(global);
 blacklist.push('constructor');
 
 module.exports = function (_options) {
@@ -18,9 +37,8 @@ module.exports = function (_options) {
 
   before(function (next) {
     if (global.window && !options.skipWindowCheck) {
-      throw new Error(
-        'mocha-jsdom: already a browser environment, or mocha-jsdom invoked ' +
-        "twice. use 'skipWindowCheck' to disable this check.");
+      throw new Error(`mocha-jsdom: already a browser environment, or mocha-jsdom invoked
+                       twice. use 'skipWindowCheck' to disable this check.`);
     }
 
     require('node-jsdom').env(
@@ -48,12 +66,12 @@ module.exports = function (_options) {
 
   after(function () {
     if (options.globalize) {
-      keys.forEach(function (key) {
+      keys.forEach((key) => {
         delete global[key];
-      })
-    } else {
-      delete global.window;
+      });
     }
+
+    delete global.window;
   });
 
   function propagateToGlobal (window) {
@@ -63,7 +81,7 @@ module.exports = function (_options) {
 
       if (key in global) {
         if (process.env.JSDOM_VERBOSE) {
-          console.warn("[jsdom] Warning: skipping cleanup of global['" + key + "']");
+          console.warn(`[jsdom] Warning: skipping cleanup of global['${key}']`);
         }
 
         continue;
@@ -75,24 +93,25 @@ module.exports = function (_options) {
   }
 
   function getError (errors) {
-    var data = errors[0].data;
-    var err = data.error;
-    err.message = err.message + ' [jsdom]';
+    const { data } = errors[0];
+    let { error: err } = data;
+
+    err.message = `${err.message} [jsdom]`;
 
     if (err.stack) {
       err.stack = err.stack.split('\n')
-      .reduce(function (list, line) {
-        if (line.match(/node_modules.+(jsdom|mocha)/)) {
+        .reduce(function (list, line) {
+          if (line.match(/node_modules.+(jsdom|mocha)/)) {
+            return list;
+          }
+
+          line = line
+            .replace(/file:\/\/.*<script>/g, '<script>')
+            .replace(/:undefined:undefined/g, '');
+
+          list.push(line);
           return list;
-        }
-
-        line = line
-          .replace(/file:\/\/.*<script>/g, '<script>')
-          .replace(/:undefined:undefined/g, '');
-
-        list.push(line);
-        return list;
-      }, []).join('\n');
+        }, []).join('\n');
     }
 
     return err;

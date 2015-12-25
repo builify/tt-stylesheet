@@ -7,6 +7,7 @@ var clean = require('gulp-clean');
 var sourcemaps = require('gulp-sourcemaps');
 var coveralls = require('gulp-coveralls');
 var istanbul = require('gulp-istanbul');
+var minify = require('gulp-minify');
 var loadCoverage = require('remap-istanbul/lib/loadCoverage');
 var remap = require('remap-istanbul/lib/remap');
 var writeReport = require('remap-istanbul/lib/writeReport');

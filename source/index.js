@@ -1,4 +1,4 @@
-const TPStylesheet = (function() {
+let TPStylesheet = (function() {
   const TYPE_ARRAY = '[object Array]';
   const TYPE_STRING = '[object String]';
   const TYPE_OBJECT = '[object Object]';

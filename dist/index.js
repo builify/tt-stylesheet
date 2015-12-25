@@ -12,14 +12,8 @@ var TPStylesheet = (function () {
   var TYPE_ARRAY = '[object Array]';
   var TYPE_STRING = '[object String]';
   var TYPE_OBJECT = '[object Object]';
-  var TYPE_DATE = '[object Date]';
-  var TYPE_NUMBER = '[object Number]';
-  var TYPE_FUNCTION = '[object Function]';
-  var TYPE_REGEXP = '[object RegExp]';
   var TYPE_BOOLEAN = '[object Boolean]';
-  var TYPE_NULL = '[object Null]';
-  var TYPE_UNDEFINED = '[object Undefined]';
-  var PREFIXES = 'O ms Moz webkit'.split(' ');
+  var PREFIXES = '-webkit-,-ms-,-moz-,-o-'.split(',');
   var PREFIXES_LEN = PREFIXES.length;
 
   var CTPStylesheet = (function () {
@@ -38,7 +32,8 @@ var TPStylesheet = (function () {
       this._styleSheetEnabled = false;
       this._stylesheet = this._initializeStyleElement(obj.target);
       this._rules = [];
-      this._CACHED_STYLES = this._win.getComputedStyle(this._doc.documentElement);
+      this._CACHED_STYLES = {};
+      this._BROWSER_STYLES = [].slice.call(this._win.getComputedStyle(this._doc.documentElement));
     }
 
     _createClass(CTPStylesheet, [{
@@ -89,25 +84,6 @@ var TPStylesheet = (function () {
         return style.sheet ? style.sheet : style.styleSheet;
       }
     }, {
-      key: '_getVendrorPrefix',
-      value: function _getVendrorPrefix(property) {
-        if (this._CACHED_STYLES.hasOwnProperty(property)) {
-          return property;
-        } else {
-          var prefixed = property;
-
-          for (var i = 0; i < PREFIXES_LEN; i++) {
-            prefixed = '' + PREFIXES[i] + property;
-
-            if (this._CACHED_STYLES.hasOwnProperty(prefixed)) {
-              return prefixed;
-            }
-          }
-        }
-
-        return property;
-      }
-    }, {
       key: '_dasherize',
       value: function _dasherize(property) {
         return property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -115,7 +91,34 @@ var TPStylesheet = (function () {
     }, {
       key: '_normalizeProperty',
       value: function _normalizeProperty(property) {
-        return this._getVendrorPrefix(this._dasherize(property));
+        if (this._CACHED_STYLES.hasOwnProperty(property)) {
+          return this._CACHED_STYLES[property];
+        }
+
+        var dasherizedProperty = this._dasherize(property);
+
+        if (this._BROWSER_STYLES.indexOf(dasherizedProperty) !== -1) {
+          this._CACHED_STYLES[property] = dasherizedProperty;
+          return dasherizedProperty;
+        } else {
+          var i = PREFIXES_LEN - 1,
+              prefixed = null;
+
+          while (i >= 0) {
+            prefixed = '' + PREFIXES[i] + dasherizedProperty;
+
+            if (this._BROWSER_STYLES.indexOf(prefixed) !== -1) {
+              this._CACHED_STYLES[property] = prefixed;
+              return prefixed;
+            }
+
+            i--;
+          }
+        }
+
+        this._CACHED_STYLES[property] = dasherizedProperty;
+
+        return dasherizedProperty;
       }
     }, {
       key: '_parseStyles',
@@ -128,13 +131,15 @@ var TPStylesheet = (function () {
           return '';
         }
 
-        return Object.keys(styles).map(function (key) {
+        var stylesToText = Object.keys(styles).map(function (key) {
           var property = _this._normalizeProperty(key);
           var value = styles[key];
           var declaration = property + ':' + value;
 
           return declaration;
         }).join(';');
+
+        return stylesToText + ';';
       }
     }, {
       key: '_insertRule',
@@ -154,36 +159,6 @@ var TPStylesheet = (function () {
           sheet.insertRule(styleRule, len);
         } else if (sheet.addRule) {
           sheet.addRule(selector, styles, len);
-        }
-      }
-    }, {
-      key: '_insertArrayRules',
-      value: function _insertArrayRules(rules) {
-        for (var i = 0, rl = rules.length; i < rl; i++) {
-          var j = 1,
-              rule = rules[i],
-              selector = rules[i][0],
-              propStr = '',
-              ruleItem,
-              value,
-              declaration,
-              isImportant;
-
-          if (this._isArray(rule[1][0])) {
-            rule = rule[1];
-            j = 0;
-          }
-
-          for (var srl = rule.length; j < srl; j++) {
-            ruleItem = rule[j];
-            value = this._normalizeProperty(ruleItem[0]);
-            declaration = ruleItem[1];
-            isImportant = ruleItem[2] ? true : false;
-
-            propStr += value + ':' + declaration + (isImportant ? ' !important' : '') + ';\n';
-          }
-
-          this._insertRule(selector, propStr);
         }
       }
     }, {
@@ -259,9 +234,7 @@ var TPStylesheet = (function () {
         switch (argsLen) {
           case 1:
             {
-              if (this._isArray(fArg)) {
-                this._insertArrayRules(fArg);
-              } else if (this._isObject(fArg)) {
+              if (this._isObject(fArg)) {
                 this._insertObjectRules(fArg);
               }
 
@@ -281,7 +254,7 @@ var TPStylesheet = (function () {
 
           case 3:
             {
-              if (this._isString(fArg) && this._isObject(sArg) && typeof tArg === 'boolean') {
+              if (this._isString(fArg) && this._isObject(sArg) && this._isBoolean(tArg)) {
                 this._insertStringAndObjectRules(fArg, sArg, tArg);
               }
 
@@ -289,21 +262,19 @@ var TPStylesheet = (function () {
             }
         }
 
-        return true;
+        return this;
       }
     }, {
       key: 'disable',
       value: function disable() {
         this._disableStylesheet();
-
-        return true;
+        return this;
       }
     }, {
       key: 'enable',
       value: function enable() {
         this._enableStylesheet();
-
-        return true;
+        return this;
       }
     }, {
       key: 'CSSText',
