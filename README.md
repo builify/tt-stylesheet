@@ -8,7 +8,7 @@
 ## Installation
 Install with npm:
 
-`npm install tpstylesheet`
+    npm install tpstylesheet`
 
 ## Usage
 When calling instance of the object, a `<style>` element will appear in document's `<head>`.
@@ -76,10 +76,10 @@ Contributions are welcome. Please clearly explain the purpose of the PR and foll
 Issues can be resolved quickest if they are descriptive and include both a reduced test case and a set of steps to reproduce.
 
 ## Run tests and create coverage
-`git clone https://github.com/Trip-Trax/TPStylesheet.git
-cd TPStylesheet
-npm i
-npm run coverage`
+    git clone https://github.com/Trip-Trax/TPStylesheet.git
+    cd TPStylesheet
+    npm i
+    npm run coverage
 
 ## Licence
 Licensed under the [MIT License](LICENSE).
