@@ -17,7 +17,7 @@ function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.const
     // Browser globals (root is window)
     root.TPStylesheet = factory();
   }
-})(undefined, function () {
+})(this, function () {
   var TYPE_ARRAY = '[object Array]';
   var TYPE_STRING = '[object String]';
   var TYPE_OBJECT = '[object Object]';
