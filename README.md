@@ -3,10 +3,11 @@
 [![Code Climate](https://codeclimate.com/github/Trip-Trax/TPStylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/TPStylesheet)
 [![npm version](https://badge.fury.io/js/tpstylesheet.svg)](https://badge.fury.io/js/tpstylesheet)
 
-> Create dynamic stylesheets and add rules to them. You can also enable and disable the stylesheets.
+> Create dynamic stylesheets and add rules to them. Comes with ability to either disable or enable the custom stylesheet.
 
 ## Installation
 Install with npm:
+
 `npm install tpstylesheet`
 
 ## Usage
