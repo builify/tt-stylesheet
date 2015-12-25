@@ -4,25 +4,20 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-(function (name, definition) {
-  if (typeof define === 'function') {
+function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
     // AMD
-    define(definition);
-  } else if (typeof module !== 'undefined' && module.exports) {
-    // Node.js
-    module.exports = definition();
+    define(factory);
+  } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
+    // Node, CommonJS-like
+    module.exports = factory();
   } else {
-    // Browser
-    var theModule = definition(),
-        global = this,
-        old = global[name];
-    theModule.noConflict = function () {
-      global[name] = old;
-      return theModule;
-    };
-    global[name] = theModule;
+    // Browser globals (root is window)
+    root.TPStylesheet = factory();
   }
-})('TPStylesheet', function () {
+})(undefined, function () {
   var TYPE_ARRAY = '[object Array]';
   var TYPE_STRING = '[object String]';
   var TYPE_OBJECT = '[object Object]';
