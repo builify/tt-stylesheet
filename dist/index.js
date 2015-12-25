@@ -2,13 +2,27 @@
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var TPStylesheet = (function () {
+(function (name, definition) {
+  if (typeof define === 'function') {
+    // AMD
+    define(definition);
+  } else if (typeof module !== 'undefined' && module.exports) {
+    // Node.js
+    module.exports = definition();
+  } else {
+    // Browser
+    var theModule = definition(),
+        global = this,
+        old = global[name];
+    theModule.noConflict = function () {
+      global[name] = old;
+      return theModule;
+    };
+    global[name] = theModule;
+  }
+})('TPStylesheet', function () {
   var TYPE_ARRAY = '[object Array]';
   var TYPE_STRING = '[object String]';
   var TYPE_OBJECT = '[object Object]';
@@ -287,6 +301,4 @@ var TPStylesheet = (function () {
   })();
 
   return CTPStylesheet;
-})();
-
-exports.default = TPStylesheet;
+});

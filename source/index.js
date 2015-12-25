@@ -1,4 +1,17 @@
-let TPStylesheet = (function() {
+(function (name, definition){
+  if (typeof define === 'function'){ // AMD
+    define(definition);
+  } else if (typeof module !== 'undefined' && module.exports) { // Node.js
+    module.exports = definition();
+  } else { // Browser
+    var theModule = definition(), global = this, old = global[name];
+    theModule.noConflict = function () {
+      global[name] = old;
+      return theModule;
+    };
+    global[name] = theModule;
+  }
+})('TPStylesheet', function () {
   const TYPE_ARRAY = '[object Array]';
   const TYPE_STRING = '[object String]';
   const TYPE_OBJECT = '[object Object]';
@@ -248,6 +261,4 @@ let TPStylesheet = (function() {
   }
 
   return CTPStylesheet;
-}());
-
-export default TPStylesheet;
+});
