@@ -24,7 +24,7 @@ const customStylesheet = new Stylesheet();
 - **add**
 
     The following example will add `#cont`, `h1` and `h2` selector styles to initialized stylesheet element.
-    TTStylesheet will automatically take care of prefixing so when using `userSelect` or `backfaceVisibility`, do not add prefixes as the it will be taken care of.
+    TTStylesheet will automatically take care of prefixing therefore when using `userSelect`, `backfaceVisibility` or any other property that requires prefixes for cross-browser support, do not add prefixes as the it will be taken care of.
 
     ```javascript
     customStylesheet.add({
@@ -36,15 +36,14 @@ const customStylesheet = new Stylesheet();
       },
       h1: {
         zIndex: 10,
-        // Single-level nesting supported.
+        // Single-level nesting supported. Use & to reference top-level selector where it resides.
         '&:hover': {
           background: 'red'
         }
       },
       h2: {
-        height: 1,
-        border: 0,
-        borderTop: '1px solid #eee'
+        border: '1px solid #eee',
+        margin: 0
       }
     });
     ```

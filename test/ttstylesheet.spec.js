@@ -23,21 +23,21 @@ describe('TTStylesheet', () => {
     });
   });
 
-  describe('Private methods', function () {
-    describe('_isString', function () {
-      it('is a function', function () {
+  describe('Private methods', () => {
+    describe('_isString', () => {
+      it('is a function', () => {
         expect(testStylesheet._isString, 'to be a', 'function');
       });
 
-      it('detects string', function () {
+      it('detects string', () => {
         expect(testStylesheet._isString(''), 'to be true');
         expect(testStylesheet._isString('test123'), 'to be true');
       });
 
-      it('does not pass other types', function () {
+      it('does not pass other types', () => {
         expect(testStylesheet._isString(new Date()), 'to be false');
         expect(testStylesheet._isString(/test/i), 'to be false');
-        expect(testStylesheet._isString(function () {}), 'to be false');
+        expect(testStylesheet._isString(() => {}), 'to be false');
         expect(testStylesheet._isString([]), 'to be false');
         expect(testStylesheet._isString({}), 'to be false');
         expect(testStylesheet._isString(123), 'to be false');
@@ -47,20 +47,20 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_isObject', function () {
-      it('is a function', function () {
+    describe('_isObject', () => {
+      it('is a function', () => {
         expect(testStylesheet._isObject, 'to be a', 'function');
       });
 
-      it('detects object', function () {
+      it('detects object', () => {
         expect(testStylesheet._isObject({}), 'to be true');
         expect(testStylesheet._isObject({ test: 123 }), 'to be true');
       });
 
-      it('does not pass other types', function () {
+      it('does not pass other types', () => {
         expect(testStylesheet._isObject(new Date()), 'to be false');
         expect(testStylesheet._isObject(/test/i), 'to be false');
-        expect(testStylesheet._isObject(function () {}), 'to be false');
+        expect(testStylesheet._isObject(() => {}), 'to be false');
         expect(testStylesheet._isObject([]), 'to be false');
         expect(testStylesheet._isObject(''), 'to be false');
         expect(testStylesheet._isObject(123), 'to be false');
@@ -70,20 +70,20 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_isArray', function () {
-      it('is a function', function () {
+    describe('_isArray', () => {
+      it('is a function', () => {
         expect(testStylesheet._isArray, 'to be a', 'function');
       });
 
-      it('detects array', function () {
+      it('detects array', () => {
         expect(testStylesheet._isArray([]), 'to be true');
         expect(testStylesheet._isArray(['test', 123]), 'to be true');
       });
 
-      it('does not pass other types', function () {
+      it('does not pass other types', () => {
         expect(testStylesheet._isArray(new Date()), 'to be false');
         expect(testStylesheet._isArray(/test/i), 'to be false');
-        expect(testStylesheet._isArray(function () {}), 'to be false');
+        expect(testStylesheet._isArray(() => {}), 'to be false');
         expect(testStylesheet._isArray({}), 'to be false');
         expect(testStylesheet._isArray(''), 'to be false');
         expect(testStylesheet._isArray(123), 'to be false');
@@ -93,12 +93,12 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_isElement', function () {
-      it('is a function', function () {
+    describe('_isElement', () => {
+      it('is a function', () => {
         expect(testStylesheet._isElement, 'to be a', 'function');
       });
 
-      it('detects single node', function () {
+      it('detects single node', () => {
         const div = document.createElement('div');
         const h1Elem = document.querySelector('h1');
         const liElems = document.querySelectorAll('li');
@@ -108,10 +108,10 @@ describe('TTStylesheet', () => {
         expect(testStylesheet._isElement(liElems), 'to be false');
       });
 
-      it('does not pass other types', function () {
+      it('does not pass other types', () => {
         expect(testStylesheet._isElement(new Date()), 'to be false');
         expect(testStylesheet._isElement(/test/i), 'to be false');
-        expect(testStylesheet._isElement(function () {}), 'to be false');
+        expect(testStylesheet._isElement(() => {}), 'to be false');
         expect(testStylesheet._isElement({}), 'to be false');
         expect(testStylesheet._isElement(''), 'to be false');
         expect(testStylesheet._isElement(123), 'to be false');
@@ -122,20 +122,20 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_isBoolean', function () {
-      it('is a function', function () {
+    describe('_isBoolean', () => {
+      it('is a function', () => {
         expect(testStylesheet._isBoolean, 'to be a', 'function');
       });
 
-      it('detects boolean', function () {
+      it('detects boolean', () => {
         expect(testStylesheet._isBoolean(true), 'to be true');
         expect(testStylesheet._isBoolean(false), 'to be true');
       });
 
-      it('does not pass other types', function () {
+      it('does not pass other types', () => {
         expect(testStylesheet._isBoolean(new Date()), 'to be false');
         expect(testStylesheet._isBoolean(/test/i), 'to be false');
-        expect(testStylesheet._isBoolean(function () {}), 'to be false');
+        expect(testStylesheet._isBoolean(() => {}), 'to be false');
         expect(testStylesheet._isBoolean({}), 'to be false');
         expect(testStylesheet._isBoolean(''), 'to be false');
         expect(testStylesheet._isBoolean(123), 'to be false');
@@ -145,18 +145,18 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_initializeStyleElement', function () {
-      it('is a function', function () {
+    describe('_initializeStyleElement', () => {
+      it('is a function', () => {
         expect(testStylesheet._initializeStyleElement, 'to be a', 'function');
       });
     });
 
-    describe('_dasherize', function () {
-      it('is a function', function () {
+    describe('_dasherize', () => {
+      it('is a function', () => {
         expect(testStylesheet._dasherize, 'to be a', 'function');
       });
 
-      it('should return correct properties', function () {
+      it('should return correct properties', () => {
         expect(testStylesheet._dasherize('userSelect'), 'to be', 'user-select');
         expect(testStylesheet._dasherize('backgroundColor'), 'to be', 'background-color');
         expect(testStylesheet._dasherize('backfaceVisibility'), 'to be', 'backface-visibility');
@@ -166,12 +166,12 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_normalizeProperty', function () {
-      it('is a function', function () {
+    describe('_normalizeProperty', () => {
+      it('is a function', () => {
         expect(testStylesheet._normalizeProperty, 'to be a', 'function');
       });
 
-      it('should return correct properties', function () {
+      it('should return correct properties', () => {
         // Meant for Chrome testing.
         expect(testStylesheet._normalizeProperty('userSelect'), 'to contain', 'user-select');
         expect(testStylesheet._normalizeProperty('backgroundColor'), 'to be', 'background-color');
@@ -181,12 +181,12 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_parseStyles', function () {
-      it('is a function', function () {
+    describe('_parseStyles', () => {
+      it('is a function', () => {
         expect(testStylesheet._parseStyles, 'to be a', 'function');
       });
 
-      it('should return correct styles', function () {
+      it('should return correct styles', () => {
         expect(testStylesheet._parseStyles({
           color: '#333',
           fontSize: '16px'
@@ -200,35 +200,35 @@ describe('TTStylesheet', () => {
       });
     });
 
-    describe('_insertRule', function () {
-      it('is a function', function () {
+    describe('_insertRule', () => {
+      it('is a function', () => {
         expect(testStylesheet._insertRule, 'to be a', 'function');
       });
     });
 
-    describe('_insertJSONRules', function () {
-      it('is a function', function () {
+    describe('_insertJSONRules', () => {
+      it('is a function', () => {
         expect(testStylesheet._insertJSONRules, 'to be a', 'function');
       });
     });
 
-    describe('_disableStylesheet', function () {
-      it('is a function', function () {
+    describe('_disableStylesheet', () => {
+      it('is a function', () => {
         expect(testStylesheet._disableStylesheet, 'to be a', 'function');
       });
 
-      it('should disable stylesheet', function () {
+      it('should disable stylesheet', () => {
         testStylesheet._disableStylesheet();
         expect(testStylesheet._styleSheetEnabled, 'to be false');
       });
     });
 
-    describe('_enableStylesheet', function () {
-      it('is a function', function () {
+    describe('_enableStylesheet', () => {
+      it('is a function', () => {
         expect(testStylesheet._enableStylesheet, 'to be a', 'function');
       });
 
-      it('should enable stylesheet', function () {
+      it('should enable stylesheet', () => {
         testStylesheet._enableStylesheet();
         expect(testStylesheet._styleSheetEnabled, 'to be true');
       });
@@ -253,15 +253,14 @@ describe('TTStylesheet', () => {
             }
           },
           h2: {
-            height: 1,
-            border: 0,
-            borderTop: '1px solid #eee'
+            border: '1px solid #eee',
+            margin: 0
           }
         });
 
         testStylesheet.add({
           hr: {
-            height: 0,
+            height: 10,
             width: 500
           }
         });
@@ -277,6 +276,11 @@ describe('TTStylesheet', () => {
         testStylesheet.disable();
         expect(testStylesheet._styleSheetEnabled, 'to be false');
       });
+
+      it('is chainable', () => {
+        testStylesheet.enable().disable();
+        expect(testStylesheet._styleSheetEnabled, 'to be false');
+      });
     });
 
     describe('enable', () => {
@@ -286,6 +290,11 @@ describe('TTStylesheet', () => {
 
       it('should enable testStylesheet', () => {
         testStylesheet.enable();
+        expect(testStylesheet._styleSheetEnabled, 'to be true');
+      });
+
+      it('is chainable', () => {
+        testStylesheet.disable().enable();
         expect(testStylesheet._styleSheetEnabled, 'to be true');
       });
     });
