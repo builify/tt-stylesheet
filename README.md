@@ -15,9 +15,9 @@ npm install ttstylesheet
 
 ## Usage
 ```javascript
-import stylesheet from 'ttstylesheet';
+import Stylesheet from 'ttstylesheet';
 
-const customStylesheet = new stylesheet();
+const customStylesheet = new Stylesheet();
 ```
 
 ## Contributions & Issues
