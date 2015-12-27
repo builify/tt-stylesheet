@@ -1,4 +1,5 @@
 var webpackConf = require('./webpack.config.js');
+
 module.exports = function(config) {
   config.set({
     files: [
@@ -16,7 +17,7 @@ module.exports = function(config) {
     webpackMiddleware: {
       noInfo: true
     },
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS', 'firefox', 'chrome'],
     plugins: [
       require('karma-webpack'),
       require('karma-mocha'),
