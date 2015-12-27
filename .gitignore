@@ -1,4 +1,4 @@
 node_modules
-build
 coverage
-.codeclimate.yml
+npm-debug.log
+.coveralls.yml

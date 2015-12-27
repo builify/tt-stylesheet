@@ -1,85 +1,29 @@
-# TPStylesheet
-[![Build Status](https://travis-ci.org/Trip-Trax/TPStylesheet.svg)](https://travis-ci.org/Trip-Trax/TPStylesheet)
-[![Code Climate](https://codeclimate.com/github/Trip-Trax/TPStylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/TPStylesheet)
-[![npm version](https://badge.fury.io/js/tpstylesheet.svg)](https://badge.fury.io/js/tpstylesheet)
+# TTStylesheet
+[![Build Status](https://img.shields.io/travis/Trip-Trax/TTStylesheet.svg?style=flat-square)](https://travis-ci.org/Trip-Trax/TTStylesheet)
+[![Coveralls Status](https://img.shields.io/coveralls/Trip-Trax/TTStylesheet.svg?style=flat-square)](https://coveralls.io/r/Trip-Trax/TTStylesheet)
+[![Dependency Status](https://david-dm.org/Trip-Trax/TTStylesheet.svg?style=flat-square)](https://david-dm.org/Trip-Trax/TTStylesheet)
+[![Code Climate](https://codeclimate.com/github/Trip-Trax/TTStylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/TTStylesheet)
+[![NPM Version](https://badge.fury.io/js/ttstylesheet.svg)](https://badge.fury.io/js/ttstylesheet)
 
-> Create dynamic stylesheets and add rules to them. Comes with ability to either disable or enable the custom stylesheet.
+> Create dynamic stylessheet and use JSON to add styles to it with this lightweight module.
 
 ## Installation
 Install with npm:
-
-    npm install tpstylesheet
-
-## Usage
-When calling instance of the object, a `<style>` element will appear in document's `<head>`.
-```javascript
-import TPStylesheet from 'TPStylesheet';
-
-const Stylesheet = new TPStylesheet();
+```shell
+npm install ttstylesheet
 ```
 
-## Functions
-- **add**
+## Usage
+```javascript
+import stylesheet from 'ttstylesheet';
 
-    This function adds rule(s) to the mounted style element
-    ```javascript
-    Stylesheet.add('h1', 'color: #333; font-size: 33px;');
-
-    // or
-    Stylesheet.add('h1', {
-      color: '#333',
-      fontSize: '33px'
-    });
-
-    // or
-    Stylesheet.add({
-      'h1': {
-        color: '#333',
-        fontSize: '33px',
-        transform: 'scale(2)',
-        userSelect: 'none'
-      },
-      'blockquote': {
-        transform: 'rotate(45deg)',
-        filter: 'blur(2px)'
-      }
-    });
-    ```
-
-- **disable**
-
-    Disables the stylesheet. This means that the styles, the stylesheet has, will have no effect whatsoever on targeted elements.
-    ```javascript
-    Stylesheet.disable();
-    ```
-
-- **enable**
-
-    Enables the stylesheet if the stylesheet had been disabled.
-    ```javascript
-    Stylesheet.enable();
-    ```
-
-- **CSSText**
-
-    Returns all style rules in CSS as you would find in a .CSS file.
-    ```javascript
-    Stylesheet.add('h1', 'color: #333; font-size: 33px;');
-
-    // Logs 'h1{color:#333;font-size:33px;}'
-    console.log(Stylesheet.CSSText())
-    ```
+const customStylesheet = new stylesheet();
+```
 
 ## Contributions & Issues
 Contributions are welcome. Please clearly explain the purpose of the PR and follow the current style.
 
 Issues can be resolved quickest if they are descriptive and include both a reduced test case and a set of steps to reproduce.
 
-## Run tests and create coverage
-    git clone https://github.com/Trip-Trax/TPStylesheet.git
-    cd TPStylesheet
-    npm i
-    npm run coverage
-
 ## Licence
-Licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE) © Trip-Trax - 2015.

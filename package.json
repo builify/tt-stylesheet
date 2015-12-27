@@ -1,48 +1,66 @@
 {
-  "name": "tpstylesheet",
-  "version": "0.0.6",
+  "name": "ttstylesheet",
+  "version": "1.0.0",
   "description": "README.md",
-  "main": "dist/index.js",
+  "main": "dist/ttstylesheet.js",
   "scripts": {
-    "coverage": "gulp",
-    "build": "gulp build",
-    "test": "gulp test"
+    "precommit": "npm test && npm run build",
+    "build": "rimraf dist && webpack --no-minimize && webpack",
+    "coverage": "babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha --report lcovonly -- -R spec",
+    "coveralls": "npm run coverage && coveralls < coverage/lcov.info && rimraf coverage",
+    "test": "npm run test-browser",
+    "test-server": "mocha test --recursive --compilers js:babel-core/register --bail",
+    "test-browser": "karma start --single-run",
+    "tdd": "npm run test-server -- --watch",
+    "tdd-browser": "karma start"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Trip-Trax/TPStylesheet.git"
-  },
+  "repository": "Trip-Trax/TTStylesheet",
   "keywords": [
     "stylesheet",
-    "insertrule",
-    "addrule",
-    "cssrules",
-    "style"
+    "react",
+    "trip-trax",
+    "ttstylesheet",
+    "object",
+    "json",
+    "object to stylesheet",
+    "css"
   ],
-  "author": "Genert Org <contact@thedeveloper.xyz> (http://thedeveloper.xyz/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Trip-Trax/TPStylesheet/issues"
-  },
-  "homepage": "https://github.com/Trip-Trax/TPStylesheet#readme",
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
-    "babel-core": "^6.2.1",
-    "babel-eslint": "^4.1.6",
-    "babel-preset-es2015": "^6.1.18",
-    "chai": "^3.4.1",
-    "colors": "^1.1.2",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^6.1.0",
-    "gulp-clean": "^0.3.1",
-    "gulp-coveralls": "^0.1.4",
-    "gulp-istanbul": "^0.10.3",
-    "gulp-minify": "0.0.5",
-    "gulp-mocha": "^2.2.0",
-    "gulp-sourcemaps": "^1.6.0",
-    "jshint": "^2.8.0",
-    "node-jsdom": "^3.1.5",
-    "remap-istanbul": "^0.4.0",
-    "source-map-support": "^0.3.3",
-    "unexpected": "^10.5.0"
-  }
+    "babel": "^5.8.3",
+    "babel-core": "^5.8.3",
+    "babel-eslint": "^4.1.4",
+    "babel-loader": "^5.3.3",
+    "chai": "^3.2.0",
+    "coveralls": "^2.11.4",
+    "eslint": "^1.4.1",
+    "eslint-plugin-babel": "^2.1.1",
+    "husky": "^0.10.1",
+    "isparta": "^3.5.1",
+    "karma": "^0.13.14",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-spec-reporter": "0.0.18",
+    "karma-unexpected": "0.0.2",
+    "karma-webpack": "^1.5.0",
+    "mocha": "^2.3.3",
+    "mocha-lcov-reporter": "^1.0.0",
+    "phantomjs-polyfill": "0.0.1",
+    "rimraf": "^2.4.3",
+    "unexpected": "^10.5.0",
+    "webpack": "^1.12.2"
+  },
+  "author": {
+    "name": "TheDeveloperXYZ",
+    "email": "contact@thedeveloper.xyz"
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "license": "MIT",
+  "dependencies": {}
 }
