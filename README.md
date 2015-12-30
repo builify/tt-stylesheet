@@ -5,7 +5,7 @@
 [![NPM Version](https://badge.fury.io/js/ttstylesheet.svg)](https://badge.fury.io/js/ttstylesheet)
 
 ## What?
-Create dynamic stylessheet and use JSON to add styles to it with this lightweight module.
+Create dynamic stylesheet and use JSON to add styles to it with this lightweight module.
 
 ## Why?
 If you want to, for example, add client side style customization such as color-wheel for heading styles, then you can use this library to achieve. Obviously, this is limited to this only and therefore you can use it as you want.
