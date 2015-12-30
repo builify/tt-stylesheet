@@ -98,6 +98,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, _default);
 
 	    this._styleSheetEnabled = false;
+	    this._stylesheetElement = null;
 	    this._stylesheet = this._initializeStyleElement(target);
 	    this._CACHED_STYLES = {};
 	    this._CACHED_PROPERTIES = {};
@@ -151,8 +152,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      (!target && !this._isElement(target) ? document.head : target).appendChild(style);
 
 	      this._styleSheetEnabled = true;
+	      this._stylesheetElement = style;
 
-	      return style.sheet ? style.sheet : style.styleSheet;
+	      return style.styleSheet || style.sheet;
 	    }
 	  }, {
 	    key: '_dasherize',
@@ -196,11 +198,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _insertRule(selector, styles, index) {
 	      var sheet = this._stylesheet;
 
-	      if (!index) {
-	        index = sheet.cssRules.length;
-	      }
-
 	      styles = this._parseStyles(styles);
+
+	      if (sheet.cssRules.length !== 0 && sheet.cssRules[index]) {
+	        sheet.deleteRule(index);
+	      }
 
 	      sheet.insertRule(selector + ' { ' + styles + ' }', index);
 	    }
@@ -231,6 +233,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return stylesToText;
 	    }
 	  }, {
+	    key: '_getKey',
+	    value: function _getKey(key, replacer) {
+	      if (key.indexOf('&') !== -1) {
+	        key = key.replace('&', replacer);
+	      } else {
+	        key = replacer + ' ' + key;
+	      }
+
+	      return key;
+	    }
+	  }, {
 	    key: '_flattenToOneLevel',
 	    value: function _flattenToOneLevel(data) {
 	      for (var key in data) {
@@ -238,8 +251,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        for (var _key in styles) {
 	          if (this._isObject(styles[_key])) {
-	            data[_key.replace('&', key)] = styles[_key];
-	            delete data[key][_key];
+	            var oldKey = _key;
+
+	            _key = this._getKey(_key, key);
+	            data[_key] = styles[oldKey];
+
+	            delete data[key][oldKey];
 	          }
 	        }
 	      }
@@ -330,6 +347,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function enable() {
 	      this._enableStylesheet();
 	      return this;
+	    }
+	  }, {
+	    key: 'initCSS',
+	    value: function initCSS() {
+	      var cssRules = this._stylesheet.cssRules;
+
+	      var len = cssRules.length;
+	      var styleElem = this._stylesheetElement;
+
+	      if (len === 0) {
+	        return this;
+	      }
+
+	      styleElem.innerHTML = '';
+
+	      for (var i = 0; i < len; i++) {
+	        styleElem.appendChild(document.createTextNode('' + cssRules[i].cssText));
+	      }
 	    }
 	  }]);
 

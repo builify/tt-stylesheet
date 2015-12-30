@@ -28,43 +28,44 @@ const NON_UNIT_PROPERTIES = {
 };
 
 export default class {
-  constructor(target) {
+  constructor (target) {
     this._styleSheetEnabled = false;
+    this._stylesheetElement = null;
     this._stylesheet = this._initializeStyleElement(target);
     this._CACHED_STYLES = {};
     this._CACHED_PROPERTIES = {};
     this._BROWSER_STYLES = [].slice.call(COMPUTED_STYLES);
   }
 
-  _getType(type) {
+  _getType (type) {
     return Object.prototype.toString.call(type);
   }
 
-  _isNumber(value) {
+  _isNumber (value) {
     return !!(this._getType(value) === TYPE_NUMBER);
   }
 
-  _isString(value) {
+  _isString (value) {
     return !!(this._getType(value) === TYPE_STRING);
   }
 
-  _isObject(value) {
+  _isObject (value) {
     return !!(this._getType(value) === TYPE_OBJECT);
   }
 
-  _isArray(value) {
+  _isArray (value) {
     return !!(this._getType(value) === TYPE_ARRAY);
   }
 
-  _isBoolean(value) {
+  _isBoolean (value) {
     return !!(this._getType(value) === TYPE_BOOLEAN);
   }
 
-  _isElement(node) {
+  _isElement (node) {
     return !!(node && (node.nodeName || (node.prop && node.attr && node.find)));
   }
 
-  _initializeStyleElement(target) {
+  _initializeStyleElement (target) {
     var style = document.createElement('style');
 
     style.setAttribute('type', 'text/css');
@@ -74,15 +75,16 @@ export default class {
     ((!target && !this._isElement(target)) ? document.head : target).appendChild(style);
 
     this._styleSheetEnabled = true;
+    this._stylesheetElement = style;
 
-    return style.sheet ? style.sheet : style.styleSheet;
+    return (style.styleSheet || style.sheet);
   }
 
   _dasherize(property) {
     return property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
   }
 
-  _normalizeProperty(property) {
+  _normalizeProperty (property) {
     if (this._CACHED_PROPERTIES.hasOwnProperty(property)) {
       return this._CACHED_PROPERTIES[property];
     }
@@ -113,14 +115,14 @@ export default class {
     return dasherizedProperty;
   }
 
-  _insertRule(selector, styles, index) {
+  _insertRule (selector, styles, index) {
     const sheet = this._stylesheet;
 
-    if (!index) {
-      index = sheet.cssRules.length;
-    }
-
     styles = this._parseStyles(styles);
+
+    if (sheet.cssRules.length !== 0 && sheet.cssRules[index]) {
+      sheet.deleteRule(index );
+    }
 
     sheet.insertRule(`${selector} { ${styles} }`, index);
   }
@@ -133,7 +135,7 @@ export default class {
     return true;
   }
 
-  _parseStyles(styles) {
+  _parseStyles (styles) {
     const stylesToText = Object.keys(styles).map((key) => {
       const property = this._normalizeProperty(key);
       const value = styles[key];
@@ -147,14 +149,28 @@ export default class {
     return stylesToText;
   }
 
-  _flattenToOneLevel(data) {
+  _getKey (key, replacer) {
+    if (key.indexOf('&') !== -1) {
+      key = key.replace('&', replacer);
+    } else {
+      key = replacer + ' ' + key;
+    }
+
+    return key;
+  }
+
+  _flattenToOneLevel( data) {
     for (let key in data) {
       const styles = data[key];
 
       for (let _key in styles) {
         if (this._isObject(styles[_key])) {
-          data[_key.replace('&', key)] = styles[_key];
-          delete data[key][_key];
+          const oldKey = _key;
+
+          _key = this._getKey(_key, key);
+          data[_key] = styles[oldKey];
+
+          delete data[key][oldKey];
         }
       }
     }
@@ -162,7 +178,7 @@ export default class {
     return data;
   }
 
-  _insertRules(selector, objectStyles) {
+  _insertRules (selector, objectStyles) {
     let cachedStyle = null;
 
     if (this._CACHED_STYLES.hasOwnProperty(selector)) {
@@ -188,7 +204,7 @@ export default class {
     this._insertRule(slctor, obj, index);
   }
 
-  _insertJSONRules(rules) {
+  _insertJSONRules (rules) {
     rules = this._flattenToOneLevel(rules);
 
     for (let rule in rules) {
@@ -200,7 +216,7 @@ export default class {
     }
   }
 
-  _disableStylesheet() {
+  _disableStylesheet () {
     if (this._styleSheetEnabled) {
       const sheet = this._stylesheet;
 
@@ -209,7 +225,7 @@ export default class {
     }
   }
 
-  _enableStylesheet() {
+  _enableStylesheet () {
     if (!this._styleSheetEnabled) {
       const sheet = this._stylesheet;
 
@@ -218,7 +234,7 @@ export default class {
     }
   }
 
-  add(styles) {
+  add (styles) {
     if (styles && this._isObject(styles)) {
       this._insertJSONRules(styles);
     }
@@ -226,13 +242,29 @@ export default class {
     return this;
   }
 
-  disable() {
+  disable () {
     this._disableStylesheet();
     return this;
   }
 
-  enable() {
+  enable () {
     this._enableStylesheet();
     return this;
+  }
+
+  initCSS () {
+    const { cssRules } = this._stylesheet;
+    const len = cssRules.length;
+    const styleElem = this._stylesheetElement;
+
+    if (len === 0) {
+      return this;
+    }
+
+    styleElem.innerHTML = '';
+
+    for (let i = 0; i < len; i++) {
+      styleElem.appendChild(document.createTextNode(`${cssRules[i].cssText}`));
+    }
   }
 }

@@ -4,7 +4,11 @@
 [![Code Climate](https://codeclimate.com/github/Trip-Trax/TTStylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/TTStylesheet)
 [![NPM Version](https://badge.fury.io/js/ttstylesheet.svg)](https://badge.fury.io/js/ttstylesheet)
 
-> Create dynamic stylessheet and use JSON to add styles to it with this lightweight module.
+## What?
+Create dynamic stylessheet and use JSON to add styles to it with this lightweight module.
+
+## Why?
+If you want to, for example, add client side style customization such as color-wheel for heading styles, then you can use this library to achieve. Obviously, this is limited to this only and therefore you can use it as you want.
 
 ## Installation
 Install with npm:
@@ -12,11 +16,12 @@ Install with npm:
 npm install ttstylesheet
 ```
 
+
 ## Usage
 ```javascript
 import Stylesheet from 'ttstylesheet';
 
-// This will create <style> element in head.
+// This will create <style> element in head, where all styles will be added.
 const customStylesheet = new Stylesheet();
 ```
 
@@ -32,11 +37,17 @@ const customStylesheet = new Stylesheet();
         // Numbers will be automatically suffixed with 'px'.
         width: 350,
         margin: '0 auto',
-        zIndex: 10
+        zIndex: 10,
+
+        // Single-level nesting supported.
+        h3: {
+          color: 'blue'
+        }
       },
       h1: {
         zIndex: 10,
-        // Single-level nesting supported. Use & to reference top-level selector where it resides.
+
+        // Use & to reference top-level selector where it resides.
         '&:hover': {
           background: 'red'
         }
@@ -62,6 +73,15 @@ const customStylesheet = new Stylesheet();
 
     ```javascript
     customStylesheet.enable();
+    ```
+
+- **initCSS**
+
+    By default JavaScript, the css rules applied will be virtual that is you will not find them as text nodes in the stylesheet.
+    In this case, use this function to initialize css rules as text nodes to the stylesheet element.
+
+    ```javascript
+    customStylesheet.initCSS();
     ```
 
 ## Contributions & Issues
