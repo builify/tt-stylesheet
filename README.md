@@ -44,6 +44,7 @@ const customStylesheet = new Stylesheet();
           color: 'blue'
         }
       },
+
       h1: {
         zIndex: 10,
 
@@ -52,6 +53,7 @@ const customStylesheet = new Stylesheet();
           background: 'red'
         }
       },
+      
       h2: {
         border: '1px solid #eee',
         margin: 0
