@@ -1,6 +1,6 @@
 # TTStylesheet
-[![Build Status](https://img.shields.io/travis/Trip-Trax/TTStylesheet.svg?style=flat-square)](https://travis-ci.org/Trip-Trax/TTStylesheet)
-[![Code Climate](https://codeclimate.com/github/Trip-Trax/TTStylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/TTStylesheet)
+[![Build Status](https://img.shields.io/travis/Trip-Trax/tt-stylesheet.svg?style=flat-square)](https://travis-ci.org/Trip-Trax/tt-stylesheet)
+[![Code Climate](https://codeclimate.com/github/Trip-Trax/tt-stylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/tt-stylesheet)
 [![NPM Version](https://badge.fury.io/js/ttstylesheet.svg)](https://badge.fury.io/js/ttstylesheet)
 
 ## What?
