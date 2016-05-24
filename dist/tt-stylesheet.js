@@ -352,18 +352,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'initCSS',
 	    value: function initCSS() {
 	      var cssRules = this._stylesheet.cssRules;
-
-	      var len = cssRules.length;
 	      var styleElem = this._stylesheetElement;
 
-	      if (len === 0) {
-	        return this;
-	      }
+	      if (this._isArray(cssRules)) {
+	        var len = cssRules.length;
 
-	      styleElem.innerHTML = '';
+	        if (len === 0) {
+	          return this;
+	        }
 
-	      for (var i = 0; i < len; i++) {
-	        styleElem.appendChild(document.createTextNode('' + cssRules[i].cssText));
+	        styleElem.innerHTML = '';
+
+	        for (var i = 0; i < len; i++) {
+	          if (cssRules[i] && cssRules[i].cssText) {
+	            styleElem.appendChild(document.createTextNode('' + cssRules[i].cssText));
+	          }
+	        }
+	      } else {
+	        for (var key in cssRules) {
+	          if (cssRules.hasOwnProperty(key)) {
+	            if (cssRules[key] && cssRules[key].cssText) {
+	              styleElem.appendChild(document.createTextNode('' + cssRules[key].cssText));
+	            }
+	          }
+	        }
 	      }
 	    }
 	  }]);

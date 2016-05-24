@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/tt-stylesheet.js',
   output: {
     path: './dist',
-    filename: minimize ? 'tts-tylesheet.min.js' : 'tt-stylesheet.js',
+    filename: minimize ? 'tt-tylesheet.min.js' : 'tt-stylesheet.js',
     libraryTarget: 'umd',
     library: 'TTStylesheet'
   },

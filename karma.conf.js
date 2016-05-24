@@ -17,7 +17,7 @@ module.exports = (config) => {
     webpackMiddleware: {
       noInfo: true
     },
-    browsers: [],
+    browsers: ['PhantomJS'],
     plugins: [
       require('karma-webpack'),
       require('karma-mocha'),
