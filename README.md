@@ -1,7 +1,7 @@
 # TTStylesheet
 [![Build Status](https://img.shields.io/travis/Trip-Trax/tt-stylesheet.svg?style=flat-square)](https://travis-ci.org/Trip-Trax/tt-stylesheet)
 [![Code Climate](https://codeclimate.com/github/Trip-Trax/tt-stylesheet/badges/gpa.svg)](https://codeclimate.com/github/Trip-Trax/tt-stylesheet)
-[![NPM Version](https://badge.fury.io/js/ttstylesheet.svg)](https://badge.fury.io/js/ttstylesheet)
+[![NPM Version](https://badge.fury.io/js/tt-stylesheet.svg)](https://badge.fury.io/js/tt-stylesheet)
 
 ## What?
 Create dynamic stylesheet and use JSON to add styles to it with this lightweight module.
@@ -12,13 +12,13 @@ If you want to, for example, add client side style customization such as color-w
 ## Installation
 Install with npm:
 ```shell
-npm install ttstylesheet
+npm install tt-stylesheet
 ```
 
 
 ## Usage
 ```javascript
-import Stylesheet from 'ttstylesheet';
+import Stylesheet from 'tt-stylesheet';
 
 // This will create <style> element in head, where all styles will be added.
 const customStylesheet = new Stylesheet();
@@ -52,7 +52,7 @@ const customStylesheet = new Stylesheet();
           background: 'red'
         }
       },
-      
+
       h2: {
         border: '1px solid #eee',
         margin: 0
