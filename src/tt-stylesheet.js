@@ -253,18 +253,31 @@ export default class {
   }
 
   initCSS () {
-    const { cssRules } = this._stylesheet;
-    const len = cssRules.length;
+    const cssRules = this._stylesheet.cssRules;
     const styleElem = this._stylesheetElement;
 
-    if (len === 0) {
-      return this;
-    }
+    if (this._isArray(cssRules)) {
+      const len = cssRules.length;
 
-    styleElem.innerHTML = '';
+      if (len === 0) {
+        return this;
+      }
 
-    for (let i = 0; i < len; i++) {
-      styleElem.appendChild(document.createTextNode(`${cssRules[i].cssText}`));
+      styleElem.innerHTML = '';
+
+      for (let i = 0; i < len; i++) {
+        if (cssRules[i] && cssRules[i].cssText) {
+          styleElem.appendChild(document.createTextNode(`${cssRules[i].cssText}`));
+        }
+      }
+    } else {
+      for (let key in cssRules) {
+        if (cssRules.hasOwnProperty(key)) {
+          if (cssRules[key] && cssRules[key].cssText) {
+            styleElem.appendChild(document.createTextNode(`${cssRules[key].cssText}`));
+          }
+        }
+      }
     }
   }
 }

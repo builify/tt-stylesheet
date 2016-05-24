@@ -1,5 +1,5 @@
 import expect from 'unexpected';
-import TTStylesheet from '../src/ttstylesheet.js';
+import TTStylesheet from '../src/tt-stylesheet.js';
 
 describe('TTStylesheet', () => {
   var testStylesheet = new TTStylesheet();
@@ -195,8 +195,8 @@ describe('TTStylesheet', () => {
           userSelect: 'none',
           color: '#333',
           fontSize: '16px'
-        }), 'to be',
-        '-webkit-user-select: none !important;color: #333 !important;font-size: 16px !important;');
+        }), 'to contain',
+        'user-select: none !important;color: #333 !important;font-size: 16px !important;');
       });
     });
 
@@ -296,6 +296,16 @@ describe('TTStylesheet', () => {
       it('is chainable', () => {
         testStylesheet.disable().enable();
         expect(testStylesheet._styleSheetEnabled, 'to be true');
+      });
+    });
+
+    describe('initCSS', () => {
+      it('is a function', () => {
+        expect(testStylesheet.initCSS, 'to be a', 'function');
+      });
+
+      it('should append stylesheet to head', () => {
+        testStylesheet.initCSS();
       });
     });
   });

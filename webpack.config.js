@@ -1,14 +1,14 @@
-var webpack = require('webpack');
-var minimize = process.argv.indexOf('--no-minimize') === -1 ? true : false;
-var packPlugins = minimize
+const webpack = require('webpack');
+const minimize = process.argv.indexOf('--no-minimize') === -1 ? true : false;
+const packPlugins = minimize
   ? [new webpack.optimize.UglifyJsPlugin({ minimize: true })]
   : [];
 
 module.exports = {
-  entry: './src/ttstylesheet.js',
+  entry: './src/tt-stylesheet.js',
   output: {
     path: './dist',
-    filename: minimize ? 'ttstylesheet.min.js' : 'ttstylesheet.js',
+    filename: minimize ? 'tts-tylesheet.min.js' : 'tt-stylesheet.js',
     libraryTarget: 'umd',
     library: 'TTStylesheet'
   },

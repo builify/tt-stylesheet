@@ -7,8 +7,8 @@ notifications:
   email: false
 node_js:
   - 'stable'
-  - v4
-  - '0.12'
+  - '6'
+  - '5'
 branches:
   except:
     - "/^v\\d+\\.\\d+\\.\\d+$/"

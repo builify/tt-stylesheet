@@ -1,11 +1,11 @@
-var webpackConf = require('./webpack.config.js');
+const path = require('path');
+const webpackConf = require('./webpack.config.js');
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     files: [
-      // Apperently it does not work on unexpected.js module...
-      './node_modules/phantomjs-polyfill/bind-polyfill.js',
-      'test/**/*.js'
+      path.join('node_modules', 'phantomjs-polyfill', 'bind-polyfill.js'),
+      path.join('test', '**', '*.js')
     ],
     frameworks: ['mocha', 'unexpected'],
     preprocessors: {
@@ -17,7 +17,7 @@ module.exports = function(config) {
     webpackMiddleware: {
       noInfo: true
     },
-    browsers: ['PhantomJS', 'firefox', 'chrome'],
+    browsers: [],
     plugins: [
       require('karma-webpack'),
       require('karma-mocha'),
